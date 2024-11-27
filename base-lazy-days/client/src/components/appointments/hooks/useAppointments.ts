@@ -69,6 +69,8 @@ export function useAppointments() {
     queryClient.prefetchQuery({
       queryKey: [queryKeys.appointments, nextMonthYear.year, nextMonthYear.month],
       queryFn: () => getAppointments(nextMonthYear.year, nextMonthYear.month),
+      staleTime: 0,
+      gcTime: 30000,  // 5 minutes
     });
   },[queryClient, monthYear])
 
@@ -84,6 +86,10 @@ export function useAppointments() {
     queryKey: [queryKeys.appointments, monthYear.year, monthYear.month],
     queryFn: () => getAppointments(monthYear.year, monthYear.month),  
     select: selectFn,
+    staleTime: 0,
+    gcTime: 30000,  // 5 minutes
+    refetchOnWindowFocus: true,
+    refetchInterval: 60000, // NOT RECOMMENDED FOR PRODUCTION
   })
 
   /** ****************** END 3: useQuery  ******************************* */
